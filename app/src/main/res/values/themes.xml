@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.Yachay" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">#FFF6E0</item>
+        <item name="android:statusBarColor">#D9822B</item>
+    </style>
+</resources>

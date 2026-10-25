@@ -30,6 +30,8 @@ fun parentOf(route: String): String = when {
     route.startsWith("eng/") -> "english"
     route == "english" -> "learn"
     route == "adults" -> "progress"
+    route.startsWith("quipu/") -> "quipu"
+    route == "quipu" -> "learn"
     else -> "home"
 }
 
@@ -69,6 +71,8 @@ fun App() {
         route == "lab/classify" -> ClassifyGame(back, home)
         route == "mazes" -> MazeMenu(go, back, home)
         route.startsWith("maze/") -> MazeScreen(route.removePrefix("maze/").toIntOrNull()?.coerceIn(1, 3) ?: 1, back, home)
+        route == "quipu" -> QuipuMap(go, back, home)
+        route.startsWith("quipu/") -> QuipuLevel(route.removePrefix("quipu/").toIntOrNull()?.coerceIn(1, Quipu.levels.size) ?: 1, back, home)
         route == "progress" -> ProgressScreen(go, home)
         route == "adults" -> AdultsScreen(back, home)
         else -> HomeScreen(go)

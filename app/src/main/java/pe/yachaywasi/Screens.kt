@@ -1,6 +1,21 @@
 package pe.yachaywasi
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
+import kotlinx.coroutines.launch
+import kotlin.math.abs
+import kotlin.math.floor
+import kotlin.math.min
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -133,38 +148,13 @@ fun TutorialScreen(onExit: () -> Unit, onHome: () -> Unit) {
     }
 }
 
-// ---------- AVENTURAS ----------
+// ---------- AVENTURAS (mapa tipo Mario Bros) ----------
 @Composable
 fun AdventuresScreen(go: (String) -> Unit, onHome: () -> Unit) {
     Store.version.intValue
-    val total = Store.totalStars()
-    Column(Modifier.fillMaxSize().background(C.Sand)) {
-        TopBar("🗺️ Mapa de aventuras", onHome, onHome)
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            TitoBubble("¿A dónde vamos hoy? Tienes $total ⭐")
-            for (p in Content.places) {
-                val open = p.activity != null && total >= p.needStars
-                val text = when {
-                    p.activity == null -> "🔒 Próximamente"
-                    total < p.needStars -> "🔒 Consigue ${p.needStars} ⭐ para abrirlo"
-                    else -> starsText(Store.stars(p.activity?.id ?: ""))
-                }
-                Card(Modifier.fillMaxWidth(), color = if (open) Color.White else Color(0xFFE6DCC3), border = if (open) C.Green else null,
-                    onClick = {
-                        if (open) go("adv/${p.id}")
-                        else Speaker.speak(if (p.activity == null) "Esta aventura llegará pronto." else "Junta más estrellas para abrir este lugar.")
-                    }) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Text(p.emoji, fontSize = 40.sp)
-                        Column {
-                            Text(p.name, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = C.Ink)
-                            Text(text, fontSize = 14.sp, color = C.Ink)
-                        }
-                    }
-                }
-            }
-        }
-    }
+    val places = Content.places
+    val nodes = places.map { p -> MapNode(p.name, p.emoji, p.activity?.let { Store.stars(it.id) } ?: 0, p.activity != null) }
+    MarioMap("🗺️ Mapa de aventuras", "Toca un lugar abierto y Tito caminará hasta allí.", "adv", nodes, { go("adv/${places[it].id}") }, onHome, onHome)
 }
 
 // ---------- APRENDER ----------
@@ -176,6 +166,15 @@ fun LearnScreen(go: (String) -> Unit, onHome: () -> Unit) {
         TopBar("📚 Aprender · $grade.º grado", onHome, onHome)
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             TitoBubble("Elige qué quieres aprender.")
+            Card(Modifier.fillMaxWidth(), border = C.Orange, onClick = { go("quipu") }) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text("🎀", fontSize = 38.sp)
+                    Column {
+                        Text("El camino del Quipu", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = C.Ink)
+                        Text("Niveles con cuerdas y nudos para contar, sumar y restar", fontSize = 13.sp, color = C.Ink)
+                    }
+                }
+            }
             for (a in Content.learn(grade)) {
                 Card(Modifier.fillMaxWidth(), border = C.Sky, onClick = { go("learn/${a.id}") }) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -316,7 +315,7 @@ private fun AdultsPanel() {
         }
         val all = Content.allActivities + English.cats.map { English.listenGame(it) }
         val rows = (all.map { it.id to it.title } + listOf("lab.memory" to "Memoria visual", "lab.patterns" to "Patrones", "lab.puzzle" to "Rompecabezas",
-            "lab.classify" to "Clasificación", "lab.maze1" to "Laberinto 1", "lab.maze2" to "Laberinto 2", "lab.maze3" to "Laberinto 3"))
+            "lab.classify" to "Clasificación", "lab.maze1" to "Laberinto 1", "lab.maze2" to "Laberinto 2", "lab.maze3" to "Laberinto 3") + (1..8).map { "quipu.$it" to "Quipu: nivel $it" })
         Card(Modifier.fillMaxWidth()) {
             Text("Progreso por actividad", fontWeight = FontWeight.Bold, color = C.Ink)
             Text("Aciertos / errores / pistas · veces completada · estrellas", fontSize = 12.sp, color = C.Ink)

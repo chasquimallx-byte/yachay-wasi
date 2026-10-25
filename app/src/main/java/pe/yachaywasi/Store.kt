@@ -25,6 +25,9 @@ object Store {
     var seenTutorial: Boolean
         get() { touch(); return sp.getBoolean("tut", false) }
         set(v) { sp.edit().putBoolean("tut", v).apply(); bump() }
+    fun intOf(key: String, default: Int = 0): Int = sp.getInt(key, default)
+    fun putInt(key: String, v: Int) { sp.edit().putInt(key, v).apply() }
+
     fun levelOf(game: String): Int { touch(); return sp.getInt("lv.$game", 0) }
     fun setLevel(game: String, v: Int) { sp.edit().putInt("lv.$game", v.coerceIn(0, 2)).apply(); bump() }
 

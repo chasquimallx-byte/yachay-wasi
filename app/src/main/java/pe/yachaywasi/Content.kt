@@ -52,16 +52,17 @@ object Content {
             Choice("Hay basura en el río. ¿Qué hacemos?", "🗑️", listOf("♻️ La recogemos", "🌊 La tiramos más", "🙈 No miramos"), 0, "Cuidar el río es cuidar a todos los que viven allí.")
         ))
 
+    /** Orden del camino del mapa: se desbloquea un lugar al completar el anterior. */
     val places = listOf(
         Place("hogar", "Mi hogar", "🏠", 0, hogar),
-        Place("pueblo", "El pueblo", "🏘️", 99, null),
         Place("mercado", "El mercado", "🧺", 0, mercado),
-        Place("chacra", "La chacra", "🌽", 3, chacra),
-        Place("bosque", "El bosque", "🌳", 99, null),
-        Place("rio", "El río", "🏞️", 6, rio),
-        Place("jardin", "El jardín", "🌸", 99, null),
-        Place("montana", "La montaña", "⛰️", 99, null),
-        Place("lab", "Laboratorio de inventos", "🔬", 99, null)
+        Place("chacra", "La chacra", "🌽", 0, chacra),
+        Place("rio", "El río", "🏞️", 0, rio),
+        Place("pueblo", "El pueblo", "🏘️", 0, null),
+        Place("bosque", "El bosque", "🌳", 0, null),
+        Place("jardin", "El jardín", "🌸", 0, null),
+        Place("montana", "La montaña", "⛰️", 0, null),
+        Place("lab", "Laboratorio de inventos", "🔬", 0, null)
     )
 
     // ---------- APRENDER ----------

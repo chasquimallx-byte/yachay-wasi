@@ -52,17 +52,55 @@ object Content {
             Choice("Hay basura en el río. ¿Qué hacemos?", "🗑️", listOf("♻️ La recogemos", "🌊 La tiramos más", "🙈 No miramos"), 0, "Cuidar el río es cuidar a todos los que viven allí.")
         ))
 
+    val pueblo = Activity("adv.pueblo", "El pueblo", "🏘️", "Convivencia y Entorno",
+        "Conocer lugares y servicios de la comunidad, la seguridad vial y la ayuda entre vecinos.", listOf(
+            Choice("¿Dónde nos atienden cuando estamos enfermos?", "🤒", listOf("🏥 En la posta", "🏫 En la escuela", "🛒 En el mercado"), 0, "Allí trabajan personas que cuidan nuestra salud."),
+            Choice("¿Dónde aprendemos a leer y escribir?", "✏️", listOf("🏫 Escuela", "🛒 Tienda", "🚌 Bus"), 0, "Vamos allí con nuestra mochila y nuestros compañeros."),
+            Order("Cruza la calle con seguridad.", listOf("👀 Miro a los lados", "🚦 Espero para cruzar", "🚶 Cruzo caminando"), "Primero miramos, después caminamos."),
+            TapAll("Toca los vehículos.", listOf("🚌", "🌳", "🚗", "🐄", "🚲", "🏠"), setOf(0, 2, 4), "Los vehículos nos llevan de un lugar a otro."),
+            Choice("Un vecino necesita ayuda. ¿Qué hacemos?", "👵", listOf("🤝 Lo ayudamos", "🙈 No miramos", "😝 Nos burlamos"), 0, "Una comunidad es fuerte cuando todos se ayudan.")
+        ))
+    val bosque = Activity("adv.bosque", "El bosque", "🌳", "Ciencia y Convivencia",
+        "Reconocer seres vivos, el ciclo de un árbol y el cuidado de la naturaleza.", listOf(
+            Choice("¿Qué nos dan los árboles?", "🌳", listOf("💨 Aire limpio y sombra", "🍬 Dulces", "🧱 Ladrillos"), 0, "Cuando estamos bajo un árbol sentimos fresco y respiramos mejor."),
+            TapAll("Toca los animales.", listOf("🐒", "🚗", "🦜", "🏠", "🐍", "📱"), setOf(0, 2, 4), "Los animales son seres vivos: se mueven y comen."),
+            Order("Ordena cómo crece un árbol.", listOf("🌰 Semilla", "🌱 Brote", "🌿 Arbolito", "🌳 Árbol"), "Todo empieza con una semilla pequeña."),
+            Choice("Hay basura en el bosque. ¿Qué hacemos?", "🗑️", listOf("♻️ La recogemos", "🔥 La quemamos", "🌲 La escondemos"), 0, "Cuidamos el bosque para los animales que viven allí.")
+        ))
+    val jardin = Activity("adv.jardin", "El jardín", "🌸", "Matemática y Ciencia",
+        "Contar, continuar patrones y reconocer lo que necesitan las plantas.", listOf(
+            Choice("¿Cuántas flores hay?", "🌸🌸🌸🌸", listOf("3", "4", "5"), 1, "Toca cada flor y cuenta: uno, dos, tres, cuatro."),
+            Choice("¿Qué sigue en el patrón?", "🌸🌼🌸🌼🌸❓", listOf("🌸", "🌼"), 1, "Se repite: una rosada, una amarilla…"),
+            TapAll("Toca lo que las plantas necesitan para crecer.", listOf("💧", "☀️", "🍬", "🎮", "🧱", "📱"), setOf(0, 1), "Las plantas necesitan agua y luz del sol."),
+            Choice("¿Qué visita las flores?", "🐝", listOf("🌸 La abeja", "🚗 El auto", "🐄 La vaca"), 0, "Es pequeña, vuela y hace zumbido.")
+        ))
+    val montana = Activity("adv.montana", "La montaña", "⛰️", "Matemática y Entorno",
+        "Comparar alturas, planificar pasos y cuidarse en lugares fríos.", listOf(
+            Choice("¿Qué ropa usamos en un lugar frío?", "❄️", listOf("🧥 Abrigo", "🏖️ Traje de baño", "🕶️ Solo lentes"), 0, "Queremos quedarnos calentitos."),
+            Choice("¿Qué es más alto?", "⛰️  y  🏠", listOf("⛰️", "🏠"), 0, "Mira cuál llega más arriba."),
+            Order("Sube la montaña paso a paso.", listOf("🎒 Preparo mi mochila", "🥾 Camino despacio", "⛰️ Llego a la cima"), "Primero nos preparamos, al final llegamos."),
+            Choice("Me pierdo en la montaña. ¿Qué hago?", "🧭", listOf("🧍 Me quedo y pido ayuda", "🏃 Corro sin rumbo", "🙈 No digo nada"), 0, "Quedarse en un lugar ayuda a que nos encuentren.")
+        ))
+    val lab = Activity("adv.lab", "Laboratorio de inventos", "🔬", "Pensamiento y Creatividad",
+        "Planificar pasos, resolver problemas y perseverar al probar ideas.", listOf(
+            Order("Inventa un barquito de papel.", listOf("📄 Tomo un papel", "✋ Lo doblo", "⛵ Lo pongo en el agua"), "Primero necesitamos el papel."),
+            Choice("¿Qué necesita una linterna para prender?", "🔦", listOf("🔋 Pilas", "🍞 Pan", "🧦 Calcetín"), 0, "Es lo que le da energía."),
+            Choice("¿Qué sigue en el patrón?", "🔴🔴🔵🔴🔴❓", listOf("🔵", "🔴"), 0, "Se repite: dos rojas, una azul."),
+            TapAll("Toca las herramientas.", listOf("🔨", "🍎", "🔧", "🐟", "✂️", "🌙"), setOf(0, 2, 4), "Las herramientas nos ayudan a construir y arreglar."),
+            Choice("Mi invento no funcionó. ¿Qué hago?", "💡", listOf("🔁 Lo intento otra vez", "😡 Me rindo", "🗑️ Lo tiro"), 0, "Los inventores prueban muchas veces.")
+        ))
+
     /** Orden del camino del mapa: se desbloquea un lugar al completar el anterior. */
     val places = listOf(
         Place("hogar", "Mi hogar", "🏠", 0, hogar),
         Place("mercado", "El mercado", "🧺", 0, mercado),
         Place("chacra", "La chacra", "🌽", 0, chacra),
         Place("rio", "El río", "🏞️", 0, rio),
-        Place("pueblo", "El pueblo", "🏘️", 0, null),
-        Place("bosque", "El bosque", "🌳", 0, null),
-        Place("jardin", "El jardín", "🌸", 0, null),
-        Place("montana", "La montaña", "⛰️", 0, null),
-        Place("lab", "Laboratorio de inventos", "🔬", 0, null)
+        Place("pueblo", "El pueblo", "🏘️", 0, pueblo),
+        Place("bosque", "El bosque", "🌳", 0, bosque),
+        Place("jardin", "El jardín", "🌸", 0, jardin),
+        Place("montana", "La montaña", "⛰️", 0, montana),
+        Place("lab", "Laboratorio de inventos", "🔬", 0, lab)
     )
 
     // ---------- APRENDER ----------
